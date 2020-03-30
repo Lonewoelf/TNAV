@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">TNAV</string>
+    <string name="tab_text_1">Random Food</string>
+    <string name="tab_text_2">FOOOOOD</string>
+    <string name="tab_text_3">Stuff</string>
+    <string name="appwidget_text">FoodList</string>
+    <string name="add_widget">Add widget</string>
+</resources>
