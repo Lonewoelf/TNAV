@@ -1,53 +1,57 @@
 package com.example.tnav;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-public class ListAdapter extends RecyclerView.Adapter<ListAdapter.foodViewHolder> {
-    private ArrayList<DBFood> mFoodList;
 
-    public static class foodViewHolder extends RecyclerView.ViewHolder {
-        public ImageView mImageView;
-        public TextView mTextView1;
-        public TextView mTextView2;
+public class ListAdapter extends RecyclerView.Adapter<ListAdapter.MyViewHolder> {
 
-        public foodViewHolder(View itemView) {
-            super(itemView);
-            mImageView = itemView.findViewById(R.id.foodImage);
-            mTextView1 = itemView.findViewById(R.id.foodTitel);
-            mTextView2 = itemView.findViewById(R.id.foodDesc);
+    private Context context;
+    private List<DBFood> foodList;
+
+    public class MyViewHolder extends RecyclerView.ViewHolder {
+        public TextView Title;
+        public TextView Desc;
+
+        public MyViewHolder(View view) {
+            super(view);
+            Title = view.findViewById(R.id.foodTitel);
+            Desc = view.findViewById(R.id.foodDesc);
         }
     }
 
-    public ListAdapter(ArrayList<DBFood> exampleList) {
-        mFoodList = exampleList;
+
+    public ListAdapter(List<DBFood> foodList) {
+        this.context = context;
+        this.foodList = foodList;
     }
 
     @Override
-    public foodViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.food_item_layout, parent, false);
-        foodViewHolder fvh = new foodViewHolder(v);
-        return fvh;
+    public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View itemView = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.food_item_layout, parent, false);
+
+        return new MyViewHolder(itemView);
     }
 
     @Override
-    public void onBindViewHolder(foodViewHolder holder, int position) {
-        DBFood currentItem = mFoodList.get(position);
+    public void onBindViewHolder(MyViewHolder holder, int position) {
+        DBFood mFood = foodList.get(position);
 
-        //holder.mImageView.setImageResource(currentItem.getImage());
-        holder.mTextView1.setText(currentItem.getDesc());
-        holder.mTextView2.setText(currentItem.getTitel());
+        holder.Title.setText(mFood.getTitel());
+        holder.Desc.setText(mFood.getDesc());
+
     }
 
     @Override
     public int getItemCount() {
-        return mFoodList.size();
+        return foodList.size();
     }
 }

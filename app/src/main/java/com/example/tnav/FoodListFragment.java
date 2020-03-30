@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -17,8 +18,8 @@ public class FoodListFragment extends Fragment {
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
-
-    private DatabaseHelper dbHelper;
+    private DatabaseHelper db;
+    private List<DBFood> foodList = new ArrayList<>();
 
     @Nullable
     @Override
@@ -26,24 +27,17 @@ public class FoodListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState){
 
         View view = inflater.inflate(R.layout.foodlistfragment_layout, container, false);
+        
         mRecyclerView = view.findViewById(R.id.recyclerView_List);
-
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        ArrayList<DBFood> foodList = new ArrayList<DBFood>();
-
-        foodList.addAll(dbHelper.getAllFood());
-
-//        foodList.add(new FoodItem(R.drawable.ic_fingerprint, "FOOD", "DOOF"));
-//        foodList.add(new FoodItem(R.drawable.ic_fingerprint, "FOOD2", "DOOF"));
-//        foodList.add(new FoodItem(R.drawable.ic_fingerprint, "FOOD3", "DOOF"));
+        db = new DatabaseHelper(getContext());
+        foodList.addAll(db.getAllFood());
 
         mRecyclerView.setHasFixedSize(true);
         mAdapter = new ListAdapter(foodList);
 
         mRecyclerView.setAdapter(mAdapter);
-
-        mRecyclerView.setVisibility(View.VISIBLE);
 
         return view;
     }

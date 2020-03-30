@@ -1,6 +1,6 @@
 package com.example.tnav;
 
-public class FoodItem {
+public class FoodItem extends DBFood {
     private int image;
     private String text1, text2;
 
