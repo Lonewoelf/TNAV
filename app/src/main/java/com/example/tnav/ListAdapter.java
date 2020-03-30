@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class ListAdapter extends RecyclerView.Adapter<ListAdapter.foodViewHolder> {
-    private ArrayList<FoodItem> mFoodList;
+    private ArrayList<DBFood> mFoodList;
 
     public static class foodViewHolder extends RecyclerView.ViewHolder {
         public ImageView mImageView;
@@ -26,7 +26,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.foodViewHolder
         }
     }
 
-    public ListAdapter(ArrayList<FoodItem> exampleList) {
+    public ListAdapter(ArrayList<DBFood> exampleList) {
         mFoodList = exampleList;
     }
 
@@ -39,11 +39,11 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.foodViewHolder
 
     @Override
     public void onBindViewHolder(foodViewHolder holder, int position) {
-        FoodItem currentItem = mFoodList.get(position);
+        DBFood currentItem = mFoodList.get(position);
 
-        holder.mImageView.setImageResource(currentItem.getImage());
-        holder.mTextView1.setText(currentItem.getText1());
-        holder.mTextView2.setText(currentItem.getText2());
+        //holder.mImageView.setImageResource(currentItem.getImage());
+        holder.mTextView1.setText(currentItem.getDesc());
+        holder.mTextView2.setText(currentItem.getTitel());
     }
 
     @Override
