@@ -45,7 +45,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.MyViewHolder> 
     public void onBindViewHolder(MyViewHolder holder, int position) {
         DBFood mFood = foodList.get(position);
 
-        holder.Title.setText(mFood.getTitel());
+        holder.Title.setText(mFood.getTitle());
         holder.Desc.setText(mFood.getDesc());
 
     }

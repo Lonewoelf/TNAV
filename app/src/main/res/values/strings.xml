@@ -5,4 +5,10 @@
     <string name="tab_text_3">Stuff</string>
     <string name="appwidget_text">FoodList</string>
     <string name="add_widget">Add widget</string>
+    <string name="textTitle">New Title</string>
+    <string name="editTitle">Please enter a new title </string>
+    <string name="textDesc">New Description</string>
+    <string name="editDesc">Please enter a new description</string>
+
+
 </resources>

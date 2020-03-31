@@ -31,7 +31,7 @@ public class DBFood {
         return id;
     }
 
-    public String getTitel() {
+    public String getTitle() {
         return Title;
     }
 
@@ -43,11 +43,12 @@ public class DBFood {
         this.id = id;
     }
 
-    public void setTitel(String Title) {
+    public void setTitle(String Title) {
         this.Title = Title;
     }
 
     public void setDesc(String Desc) {
         this.Desc = Desc;
     }
+
 }

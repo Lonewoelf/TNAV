@@ -20,7 +20,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
-    // Creating Tables
     @Override
     public void onCreate(SQLiteDatabase db) {
 
@@ -60,7 +59,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             do {
                 DBFood fooddb = new DBFood();
                 fooddb.setId(cursor.getInt(cursor.getColumnIndex(DBFood.COLUMN_ID)));
-                fooddb.setTitel(cursor.getString(cursor.getColumnIndex(DBFood.COLUMN_TITEL)));
+                fooddb.setTitle(cursor.getString(cursor.getColumnIndex(DBFood.COLUMN_TITEL)));
                 fooddb.setDesc(cursor.getString(cursor.getColumnIndex(DBFood.COLUMN_DESC)));
 
                 food.add(fooddb);
@@ -72,5 +71,42 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return food;
     }
 
+    public DBFood getFood(long id) {
+        SQLiteDatabase db = this.getReadableDatabase();
 
+        Cursor cursor = db.query(DBFood.TABLE_NAME,
+                new String[]{DBFood.COLUMN_ID, DBFood.COLUMN_TITEL, DBFood.COLUMN_DESC},
+                DBFood.COLUMN_ID + "=?",
+                new String[]{String.valueOf(id)}, null, null, null, null);
+
+        if (cursor != null)
+            cursor.moveToFirst();
+
+        DBFood food = new DBFood(
+                cursor.getInt(cursor.getColumnIndex(DBFood.COLUMN_ID)),
+                cursor.getString(cursor.getColumnIndex(DBFood.COLUMN_TITEL)),
+                cursor.getString(cursor.getColumnIndex(DBFood.COLUMN_DESC)));
+
+        cursor.close();
+
+        return food;
+    }
+
+    public int updateFood(DBFood food) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(DBFood.COLUMN_TITEL, food.getTitle());
+        values.put(DBFood.COLUMN_DESC, food.getDesc());
+
+        return db.update(DBFood.TABLE_NAME, values, DBFood.COLUMN_ID + " = ?",
+                new String[]{String.valueOf(food.getId())});
+    }
+
+    public void deleteFood(DBFood food) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(DBFood.TABLE_NAME, DBFood.COLUMN_ID + " = ?",
+                new String[]{String.valueOf(food.getId())});
+        db.close();
+    }
 }
