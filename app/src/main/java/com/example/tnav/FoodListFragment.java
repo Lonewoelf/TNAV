@@ -32,10 +32,10 @@ public class FoodListFragment extends Fragment {
     @Nullable
     @Override
 
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState){
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.foodlistfragment_layout, container, false);
-        
+
         mRecyclerView = view.findViewById(R.id.recyclerView_List);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
@@ -49,7 +49,6 @@ public class FoodListFragment extends Fragment {
                 showFoodDialog(false, null, -1);
             }
         });
-
 
         mRecyclerView.setHasFixedSize(true);
         mAdapter = new ListAdapter(foodList);

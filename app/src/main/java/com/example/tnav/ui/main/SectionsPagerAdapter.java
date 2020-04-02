@@ -13,6 +13,8 @@ import com.example.tnav.R;
 import com.example.tnav.RandomFragment;
 import com.example.tnav.WebFragment;
 
+import org.json.JSONException;
+
 /**
  * A [FragmentPagerAdapter] that returns a fragment corresponding to
  * one of the sections/tabs/pages.
@@ -34,6 +36,7 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
         switch (position){
             case 0:
                 fragment = new RandomFragment();
+                new FoodListFragment();
                 break;
             case 1:
                 fragment = new  FoodListFragment();
