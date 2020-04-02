@@ -9,12 +9,18 @@ import android.database.sqlite.SQLiteOpenHelper;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.example.tnav.DBFood.COLUMN_DESC;
+import static com.example.tnav.DBFood.COLUMN_ID;
+import static com.example.tnav.DBFood.COLUMN_TITEL;
+import static com.example.tnav.DBFood.DB_NAME;
+import static com.example.tnav.DBFood.TABLE_NAME;
+
+
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final int DATABASE_VERSION = 1;
 
-    private static final String DATABASE_NAME = "food_db";
-
+    private static final String DATABASE_NAME = DB_NAME;
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -22,14 +28,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-
-        db.execSQL(DBFood.CREATE_TABLE);
+        String sql = "CREATE TABLE " + TABLE_NAME
+                + "(" + COLUMN_ID +
+                " INTEGER PRIMARY KEY AUTOINCREMENT, " + COLUMN_TITEL +
+                " VARCHAR, " + COLUMN_DESC +
+                " VARCHAR" + ")";
+        db.execSQL(sql);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS " + DBFood.TABLE_NAME);
-
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
         onCreate(db);
     }
 
@@ -40,17 +49,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(DBFood.COLUMN_TITEL, Titel);
         values.put(DBFood.COLUMN_DESC, Desc);
 
-        long id = db.insert(DBFood.TABLE_NAME, null, values);
+        long id = db.insert(TABLE_NAME, null, values);
 
         db.close();
-
         return id;
     }
 
     public List<DBFood> getAllFood() {
         List<DBFood> food = new ArrayList<>();
 
-        String selectQuery = "SELECT  * FROM " + DBFood.TABLE_NAME;
+        String selectQuery = "SELECT  * FROM " + TABLE_NAME;
 
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
@@ -58,7 +66,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         if (cursor.moveToFirst()) {
             do {
                 DBFood fooddb = new DBFood();
-                fooddb.setId(cursor.getInt(cursor.getColumnIndex(DBFood.COLUMN_ID)));
+                fooddb.setId(cursor.getInt(cursor.getColumnIndex(COLUMN_ID)));
                 fooddb.setTitle(cursor.getString(cursor.getColumnIndex(DBFood.COLUMN_TITEL)));
                 fooddb.setDesc(cursor.getString(cursor.getColumnIndex(DBFood.COLUMN_DESC)));
 
@@ -74,16 +82,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public DBFood getFood(long id) {
         SQLiteDatabase db = this.getReadableDatabase();
 
-        Cursor cursor = db.query(DBFood.TABLE_NAME,
-                new String[]{DBFood.COLUMN_ID, DBFood.COLUMN_TITEL, DBFood.COLUMN_DESC},
-                DBFood.COLUMN_ID + "=?",
+        Cursor cursor = db.query(TABLE_NAME,
+                new String[]{COLUMN_ID, DBFood.COLUMN_TITEL, DBFood.COLUMN_DESC},
+                COLUMN_ID + "=?",
                 new String[]{String.valueOf(id)}, null, null, null, null);
 
         if (cursor != null)
             cursor.moveToFirst();
 
         DBFood food = new DBFood(
-                cursor.getInt(cursor.getColumnIndex(DBFood.COLUMN_ID)),
+                cursor.getInt(cursor.getColumnIndex(COLUMN_ID)),
                 cursor.getString(cursor.getColumnIndex(DBFood.COLUMN_TITEL)),
                 cursor.getString(cursor.getColumnIndex(DBFood.COLUMN_DESC)));
 
@@ -99,14 +107,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(DBFood.COLUMN_TITEL, food.getTitle());
         values.put(DBFood.COLUMN_DESC, food.getDesc());
 
-        return db.update(DBFood.TABLE_NAME, values, DBFood.COLUMN_ID + " = ?",
+        return db.update(TABLE_NAME, values, COLUMN_ID + " = ?",
                 new String[]{String.valueOf(food.getId())});
     }
 
-    public void deleteFood(DBFood food) {
+    public void deleteFood() {
         SQLiteDatabase db = this.getWritableDatabase();
-        db.delete(DBFood.TABLE_NAME, DBFood.COLUMN_ID + " = ?",
-                new String[]{String.valueOf(food.getId())});
+
+        String selectQuery = "DELETE  FROM " + TABLE_NAME;
+        db.rawQuery(selectQuery, null);
         db.close();
     }
 }

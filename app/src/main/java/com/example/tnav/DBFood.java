@@ -1,11 +1,12 @@
 package com.example.tnav;
 
 public class DBFood {
-    public static final String TABLE_NAME = "foodtbl";
-
+    public static final String DB_NAME = "dbfood";
+    public static final String TABLE_NAME = "dbfood";
     public static final String COLUMN_ID = "ID";
     public static final String COLUMN_TITEL = "Titel";
     public static final String COLUMN_DESC = "Desc";
+
 
     private String Title, Desc;
     private int id;

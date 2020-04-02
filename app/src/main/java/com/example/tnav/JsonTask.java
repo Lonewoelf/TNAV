@@ -38,7 +38,6 @@ public class JsonTask extends AsyncTask<URL, String, String> {
         BufferedReader reader = null;
 
         try {
-            joke = "trying";
             connection = (HttpURLConnection) url.openConnection();
             connection.setConnectTimeout(1000);
             connection.setRequestMethod("GET");
@@ -47,8 +46,6 @@ public class JsonTask extends AsyncTask<URL, String, String> {
             connection.setAllowUserInteraction(false);
             connection.setReadTimeout(5000);
             connection.connect();
-            int status = connection.getResponseCode();
-
 
             BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
             StringBuilder sb = new StringBuilder();
